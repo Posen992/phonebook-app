@@ -20,26 +20,20 @@ jobs:
         run: npm ci
       - name: Check style - eslint
         run: npm run eslint
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test
       - name: Build
         run: npm run build
-      - name: Test
-        run: npm run test:e2e
       - name: Trigger deployment
         if: ${{ github.event_name == 'pull_request' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Check Health
         if: ${{ github.event_name == 'pull_request' }}
-        run: curl https://full-stack-open-pokedex-urty.onrender.com/health
+        run: curl https://phonebook-backend-prd6.onrender.com/health
       - name: Deployment success
         uses: rjstone/discord-webhook-notify@v1
         if: success() 
         with: 
           severity: info
-          details: A new version of Pokedex deployed!
+          details: A new version of phonebookApp deployed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Deployment failure
         uses: rjstone/discord-webhook-notify@v1

@@ -52,9 +52,8 @@ jobs:
         with:
           node-version: '20'
       - name: Bump version and push tag
-        if: ${{ github.ref == 'refs/heads/main' }} && !${{ contains(toJson(github.event.commits.*.message),'#skip')}}
-        run: echo ${{ github.ref == 'refs/heads/main' }} ${{ contains(toJson(github.event.commits.*.message),'#skip')}}
-        # uses: anothrNick/github-tag-action@v1
-        # env:
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # DEFAULT_BUMP: patch
+        if: ${{ github.ref == 'refs/heads/main' && contains(toJson(github.event.commits.*.message),'#skip')}}
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch

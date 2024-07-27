@@ -30,19 +30,18 @@ jobs:
         run: curl https://phonebook-backend-prd6.onrender.com/health
       - name: Deployment success
         uses: rjstone/discord-webhook-notify@v1
-        if: success() 
-        with: 
+        if: success()
+        with:
           severity: info
           details: A new version of phonebookApp deployed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Deployment failure
         uses: rjstone/discord-webhook-notify@v1
-        if: failure() 
-        with: 
+        if: failure()
+        with:
           severity: error
           details: Build failed
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-
 
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -54,8 +53,8 @@ jobs:
           node-version: '20'
       - name: Bump version and push tag
         if: ${{ github.ref == 'refs/heads/main' }} && !${{ contains(toJson(github.event.commits.*.message),'#skip')}}
-        uses: anothrNick/github-tag-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
-
+        run: echo 'github.ref'
+        # uses: anothrNick/github-tag-action@v1
+        # env:
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # DEFAULT_BUMP: patch
